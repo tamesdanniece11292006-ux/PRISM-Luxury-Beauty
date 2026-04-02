@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRISM | Luxury Beauty</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #f8c2d8;
+            --secondary: #a663cc;
+            --accent: #ffd700;
+            --dark: #2d2a32;
+            --light: #f9f4f7;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 5%;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 60vh;
+            height: 60vh;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: -15%;
+            left: -5%;
+            width: 80vh;
+            height: 80vh;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+            color: var(--light);
+        }
+
+        .brand-name {
+            font-size: 4rem;
+            font-weight: 300;
+            letter-spacing: 0.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .brand-name::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .hero-tagline {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            background: var(--light);
+            color: var(--secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .hero-image {
+            position: relative;
+            z-index: 1;
+            display: none;
+        }
+
+        .hero-image img {
+            height: 80vh;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+        }
+
+        /* Collections Section */
+        .collections {
+            padding: 6rem 5%;
+            background: var(--light);
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--dark);
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+        }
+
+        .collection-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+        }
+
+        .collection-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-image {
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .collection-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.7) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 2rem;
+            color: white;
+        }
+
+        .collection-card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .card-title {
+            color: var(--dark);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* About Section */
+        .about {
+            padding: 6rem 5%;
+            background: linear-gradient(45deg, var(--dark) 0%, #3a3640 100%);
+            color: var(--light);
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-content {
+            max-width: 800px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid rgba(255,255,255,0.2);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            background: var(--dark);
+            color: var(--light);
+            text-align: center;
+        }
+
+        .social-links {
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive Breakpoints */
+        @media (min-width: 768px) {
+            .hero-image {
+                display: block;
+            }
+            .about {
+                flex-direction: row;
+                text-align: left;
+                justify-content: center;
+            }
+            .about-content {
+                max-width: 500px;
+                text-align: left;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .hero {
+                padding: 2rem 10%;
+            }
+            .collections, .about {
+                padding: 8rem 10%;
+            }
+            .brand-name {
+                font-size: 5rem;
+            }
+            .hero-tagline {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+      
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Hero Section -->
+         <section class="hero" id="home">
+        <section id="home" class="container">
+        <div class="hero-content">
+            <h1 class="brand-name">PRISM</h1>
+            <p class="hero-tagline">Where nature meets luxury — crafted beauty essentials to celebrate your unique glow.</p>
+            <p>Our lip gloss is more than just a beauty assential, it's a tounch of luxury in every swipe.Infused with nourishing ingredients, it glides on smoothly, providing your lips with a soft,non-sticky shine that lasts.</p>
+        </section>
+            <!--Menu Bar -->
+            <nav>
+                <ul>
+                   <button class="btn"><a href="#home">Home</a></button>
+                    <button class="btn"><a href="#collection">Collection</a></button>
+                  <button class="btn"><a href="#about">About</a></button>
+
+              <div class="hero-image">
+
+    </section>
+
+    <!-- Collections Section -->
+      <section id="collection" class="container">
+    <section class="collections" id="collections">
+        <h2 class="section-title">Signature Collections</h2>
+        <div class="collection-grid">
+            <div class="collection-card">
+                <div class="card-image">
+                    <img src="c:\flower.webp" alt="Floral Glow Collection">
+                    
+                </div>
+                <div class="card-overlay">
+                    <button class="btn" style="background: var(--accent); color: var(--dark);">Shop Now</button>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Floral Glow</h3>
+                    <p class="card-subtitle">Infused with rose & jasmine extracts</p>
+                </div>
+            </div>
+
+            <div class="collection-card">
+                <div class="card-image">
+                    <img src="c:\golden.jpg" alt="Golden Radiance Collection">
+                </div>
+                <div class="card-overlay">
+                    <button class="btn" style="background: var(--accent); color: var(--dark);">Shop Now</button>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Golden Radiance</h3>
+                    <p class="card-subtitle">24K gold-infused luxury formulas</p>
+                </div>
+            </div>
+
+             <div class="collection-card">
+                <div class="card-image">
+                    <img src="c:\pink.webp" alt="Rose Glow Gloss Collection">
+                </div>
+                <div class="card-overlay">
+                    <button class="btn" style="background: var(--accent); color: var(--dark);">Shop Now</button>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Rose Glow Gloss</h3>
+                    <p class="card-subtitle">Glossy Pink & Strawberry extracts</p>
+                </div>
+            </div>
+
+            <div class="collection-card">
+                <div class="card-image">
+                    <img src="c:\nude.webp" alt="Nude Paradise Collection">
+                </div>
+                <div class="card-overlay">
+                    <button class="btn" style="background: var(--accent); color: var(--dark);">Shop Now</button>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Nude Paradise</h3>
+                    <p class="card-subtitle">Dusty Beige Glossy</p>
+                </div>
+            </div>
+             
+            <div class="collection-card">
+                <div class="card-image">
+                    <img src="c:\matte.webp" alt="Creamy Matte Collection">
+                </div>
+                <div class="card-overlay">
+                    <button class="btn" style="background: var(--accent); color: var(--dark);">Shop Now</button>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Creamy Matte </h3>
+                    <p class="card-subtitle">Cherry Red Matte Glossy</p>
+                </div>
+            </div>
+
+            <div class="collection-card">
+                <div class="card-image">
+                    <img src="c:\sunset.jpg" alt="Sunset Shimmer Collection">
+                </div>
+                <div class="card-overlay">
+                    <button class="btn" style="background: var(--accent); color: var(--dark);">Shop Now</button>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Sunset Shimmer</h3>
+                    <p class="card-subtitle">Orange Glossy Shimmer</p>
+                </div>
+            </div>
+
+            <div class="collection-card">
+                <div class="card-image">
+                    <img src="c:\berry.webp" alt="Berry Blast Tint Collection">
+                </div>
+                <div class="card-overlay">
+                    <button class="btn" style="background: var(--accent); color: var(--dark);">Shop Now</button>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Berry Blast Tint</h3>
+                    <p class="card-subtitle">Blueberry Glossy Tint</p>
+                </div>
+            </div>
+
+            <div class="collection-card">
+                <div class="card-image">
+                    <img src="c:\earth.jpg" alt="Pure Earth Collection">
+                </div>
+                <div class="card-overlay">
+                    <button class="btn" style="background: var(--accent); color: var(--dark);">Shop Now</button>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Pure Earth</h3>
+                    <p class="card-subtitle">Vegan & organic skincare essentials</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    </section>
+
+    <!-- About Section -->
+      <section id="home" class="container">
+    <section class="about" id="about">
+        <div class="about-image">
+            <img src="c:\backgrounf.jpg" alt="Founder of PRISM Beauty">
+        </div>
+        <div class="about-content">
+            <h2 class="section-title" style="color: var(--light);">Our Story</h2>
+            <p>Founded in 2018, PRISM was born from a passion to create beauty products that honor both science and nature. Every formula is handcrafted in small batches, using sustainably sourced ingredients from around the globe — no harsh chemicals, no animal testing, just pure care for your skin and the planet.</p>
+            <br>
+            <p>We believe beauty is not about perfection, but about celebrating your authentic self with products that nourish, protect, and enhance your natural radiance.</p>
+        </div>
+    </section>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <h3>PRISM Beauty</h3>
+        <p>San Jose del Monte, Bulacan | Philippines</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+        </div>
+        <p style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.7;">© 2026 PRISM Beauty. All rights reserved.</p>
+    
+       
+
+        </section>
+    </footer>
+
+          <!--Mobile Menu Script-->
+          <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link (mobile)
+        const links = navLinks.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+        </script>
+
+</body>
+</html>
